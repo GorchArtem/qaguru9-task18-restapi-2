@@ -27,7 +27,6 @@ public class DemowebshopTests {
     void checkCustomersInfo() {
         String login = "artem@qaguru.tr";
         String password = "Artem1349";
-//        SelenideElement customersField = $(".fieldset");
 
         step("Get cookie and set it to browser by API", () -> {
             String authorizationCookie =
