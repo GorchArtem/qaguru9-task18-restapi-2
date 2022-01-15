@@ -1,8 +1,11 @@
+import io.restassured.http.ContentType;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.greaterThan;
-import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.*;
 
 public class BookStoreTests {
 
@@ -15,4 +18,27 @@ public class BookStoreTests {
                 .log().body()
                 .body("books", hasSize(greaterThan(0)));
     }
+
+    @Test
+    void authorizedTest() {
+        String data = "{\"userName\":\"Artem\",\"password\":\"123ASas$$\"}";
+//        Map<String, String> data = new HashMap<>();
+//        data.put("userName", "Artem");
+//        data.put("password", "123ASas$$");
+
+        given()
+                .contentType(ContentType.JSON)
+                .body(data)
+                .when()
+                .log().uri()
+                .post("https://demoqa.com/Account/v1/GenerateToken")
+                .then()
+                .log().body()
+                .body("status", is("Success"))
+                .body("result", is("User authorized successfully."));
+
+    }
+
+
+
 }
