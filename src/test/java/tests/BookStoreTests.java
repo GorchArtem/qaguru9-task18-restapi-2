@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.util.HashMap;
 import java.util.Map;
 
+import static filters.CustomLogFilter.customLogFilter;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
 
@@ -30,7 +31,7 @@ public class BookStoreTests {
 //        data.put("password", "123ASas$$");
 
         given()
-                .filter(new AllureRestAssured())
+                .filter(customLogFilter().withCustomTemplates())
                 .contentType(ContentType.JSON)
                 .body(data)
                 .when()
