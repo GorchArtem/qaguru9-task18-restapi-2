@@ -15,6 +15,7 @@ import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 import static io.qameta.allure.Allure.step;
 import static io.restassured.RestAssured.given;
+import static java.lang.String.format;
 
 public class DemowebshopTests {
 
@@ -22,6 +23,11 @@ public class DemowebshopTests {
     static void setUp() {
         RestAssured.baseURI = "http://demowebshop.tricentis.com/";
         Configuration.baseUrl = "http://demowebshop.tricentis.com/";
+
+        String login = "user1";
+        String password = "1234";
+        String url = "selenoid.autotests.cloud/wd/hub/";
+        Configuration.remote = format("https://%s:%s@%s", login, password, url);
     }
 
     @Test
