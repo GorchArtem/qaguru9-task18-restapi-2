@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static filters.CustomLogFilter.customLogFilter;
+import static io.qameta.allure.Allure.step;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
 
@@ -26,23 +27,20 @@ public class BookStoreTests {
     @Test
     void authorizeWithAllureTest() {
         String data = "{\"userName\":\"Artem\",\"password\":\"123ASas$$\"}";
-//        Map<String, String> data = new HashMap<>();
-//        data.put("userName", "Artem");
-//        data.put("password", "123ASas$$");
 
-        given()
-                .filter(customLogFilter().withCustomTemplates())
-                .contentType(ContentType.JSON)
-                .body(data)
-                .when()
-                .log().uri()
-                .post("https://demoqa.com/Account/v1/GenerateToken")
-                .then()
-                .log().body()
-                .body("status", is("Success"),
-                        "result", is("User authorized successfully."));
+        step("Generate Token", () ->
+                given()
+                        .filter(customLogFilter().withCustomTemplates())
+                        .contentType(ContentType.JSON)
+                        .body(data)
+                        .when()
+                        .log().uri()
+                        .post("https://demoqa.com/Account/v1/GenerateToken")
+                        .then()
+                        .log().body()
+                        .body("status", is("Success"),
+                                "result", is("User authorized successfully."))
+
+        );
     }
-
-
-
 }
