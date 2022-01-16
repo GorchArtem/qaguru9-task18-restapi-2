@@ -1,3 +1,6 @@
+package tests;
+
+import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.Test;
 
@@ -20,13 +23,14 @@ public class BookStoreTests {
     }
 
     @Test
-    void authorizedTest() {
+    void authorizeWithAllureTest() {
         String data = "{\"userName\":\"Artem\",\"password\":\"123ASas$$\"}";
 //        Map<String, String> data = new HashMap<>();
 //        data.put("userName", "Artem");
 //        data.put("password", "123ASas$$");
 
         given()
+                .filter(new AllureRestAssured())
                 .contentType(ContentType.JSON)
                 .body(data)
                 .when()
@@ -34,9 +38,8 @@ public class BookStoreTests {
                 .post("https://demoqa.com/Account/v1/GenerateToken")
                 .then()
                 .log().body()
-                .body("status", is("Success"))
-                .body("result", is("User authorized successfully."));
-
+                .body("status", is("Success"),
+                        "result", is("User authorized successfully."));
     }
 
 
